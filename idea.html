@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreadButter Interactive App Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A feature-oriented, tabbed dashboard layout was chosen to allow users to explore the software's capabilities in a non-linear, intuitive way. This structure is better for understanding a software product than a linear document. Key interactions include tab-based navigation to switch between feature sections, interactive diagrams that link visuals to text, and a sample chart to represent data, creating a more dynamic and engaging learning experience. -->
+    <!-- Visualization & Content Choices: Report Info: Core app features (CRM, Comms Hub, AI). Goal: Explain complex software features and workflows. Viz/Presentation Method: Used tabbed sections for high-level organization. For CRM, an HTML/CSS diagram shows entity relationships, and a Chart.js bar chart visualizes sample data (Gigs by Status). For Comms Hub, a flowchart diagram built with HTML/CSS clarifies the process. For AI features, styled cards with icons are used for scannability. Interaction: Tabs control content visibility. Buttons in the CRM section highlight corresponding text. A mock toggle for AI features adds interactivity. Justification: This approach breaks down the dense documentation into manageable, interactive chunks, enhancing comprehension and engagement. Library/Method: Vanilla JS for interactivity, Chart.js for data visualization, Tailwind CSS for layout and styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .tab-active {
+            background-color: #8D6E63;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            background-color: #EFEBE9;
+            color: #795548;
+        }
+        .content-panel {
+            display: none;
+        }
+        .content-panel.active {
+            display: block;
+        }
+        .highlight {
+            background-color: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            transition: all 0.3s ease-in-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">The BreadButter Internal App</h1>
+            <p class="text-lg text-gray-600">An interactive guide to our central nervous system.</p>
+        </header>
+
+        <main class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+            <div id="tabs" class="flex flex-wrap justify-center gap-2 mb-8">
+                <button data-tab="overview" class="tab text-sm md:text-base px-4 py-2 rounded-full transition-all duration-300 tab-active">
+                    <span class="mr-2">🏠</span>Overview
+                </button>
+                <button data-tab="crm" class="tab text-sm md:text-base px-4 py-2 rounded-full transition-all duration-300 tab-inactive">
+                    <span class="mr-2">🗂️</span>CRM & Project Tracking
+                </button>
+                <button data-tab="comms" class="tab text-sm md:text-base px-4 py-2 rounded-full transition-all duration-300 tab-inactive">
+                    <span class="mr-2">💬</span>Comms Hub
+                </button>
+                <button data-tab="ai" class="tab text-sm md:text-base px-4 py-2 rounded-full transition-all duration-300 tab-inactive">
+                    <span class="mr-2">✨</span>AI & Automations
+                </button>
+            </div>
+
+            <div id="tab-content">
+                <div id="overview-content" class="content-panel active">
+                    <div class="prose max-w-none">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">What is the BreadButter App?</h2>
+                        <p class="text-gray-700">The BreadButter internal app is the central nervous system of our business. It acts as a "breadboard," providing a structured and searchable home for all our deals, decisions, and discussions. The platform centralizes information that typically lives across various tools like Google Docs, Slack, Notion, and email, making our workflows more efficient and our data more accessible.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-8 mt-8">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Key Features</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start"><span class="text-xl mr-3">🗂️</span><span><strong>Centralized CRM:</strong> Manage and track detailed profiles for clients, talent, and gigs.</span></li>
+                                    <li class="flex items-start"><span class="text-xl mr-3">📈</span><span><strong>Project Tracker:</strong> Monitor the status, deliverables, and updates for every gig.</span></li>
+                                    <li class="flex items-start"><span class="text-xl mr-3">💬</span><span><strong>Comms Hub:</strong> A single place to log all communications, including notes, recordings, and feedback.</span></li>
+                                    <li class="flex items-start"><span class="text-xl mr-3">✨</span><span><strong>AI Add-ons:</strong> Leverage AI to automatically summarize content, tag topics, and extract key tasks.</span></li>
+                                    <li class="flex items-start"><span class="text-xl mr-3">🤖</span><span><strong>Automations & Integrations:</strong> Connect with external services like Notion and Slack to trigger actions.</span></li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-3">Target Audience</h3>
+                                <p class="mb-4 text-gray-700">This application and its documentation are designed for all BreadButter team members, including:</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    <li>Project Managers</li>
+                                    <li>Talent Coordinators</li>
+                                    <li>Developers</li>
+                                    <li>New Hires during onboarding</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="crm-content" class="content-panel">
+                     <div class="prose max-w-none">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Core Workflow: CRM & Project Tracking</h2>
+                        <p class="text-gray-700 mb-8">The core of the application revolves around managing the relationships between Clients, Talent, and Gigs. This section provides a visual and textual guide to how these entities are created, linked, and tracked. Click the buttons in the diagram to learn more about each component.</p>
+                        
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                                <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Entity Relationship</h3>
+                                <div class="flex flex-col items-center space-y-4">
+                                    <button data-target="clients-desc" class="interactive-btn w-48 text-center bg-blue-100 text-blue-800 p-3 rounded-lg shadow-sm hover:shadow-md transition">Clients</button>
+                                    <span class="text-2xl text-gray-400">↓</span>
+                                    <button data-target="gigs-desc" class="interactive-btn w-48 text-center bg-green-100 text-green-800 p-3 rounded-lg shadow-sm hover:shadow-md transition">Gigs</button>
+                                    <span class="text-2xl text-gray-400">↓</span>
+                                    <button data-target="talent-desc" class="interactive-btn w-48 text-center bg-purple-100 text-purple-800 p-3 rounded-lg shadow-sm hover:shadow-md transition">Talent</button>
+                                </div>
+                            </div>
+                            <div id="crm-descriptions" class="space-y-4">
+                                <div id="clients-desc" class="p-4 rounded-lg transition-all duration-300">
+                                    <h4 class="font-semibold text-lg">Clients</h4>
+                                    <p>Create and manage client profiles, view their associated gigs, and access all related communications in one place.</p>
+                                </div>
+                                <div id="gigs-desc" class="p-4 rounded-lg transition-all duration-300">
+                                    <h4 class="font-semibold text-lg">Gigs</h4>
+                                    <p>The central project unit. Each gig is linked to a client and assigned talent. Track its status, deliverables, and timeline from creation to completion.</p>
+                                </div>
+                                <div id="talent-desc" class="p-4 rounded-lg transition-all duration-300">
+                                    <h4 class="font-semibold text-lg">Talent</h4>
+                                    <p>Maintain detailed profiles for talent, including their skills and availability. View a complete history of their past and upcoming gigs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-8">
+                        
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Gigs by Status</h3>
+                        <p class="text-gray-700 mb-4">The project tracker allows for real-time monitoring of all ongoing gigs. The chart below provides a sample overview of the current status across all projects, a key feature of the Gigs dashboard.</p>
+                        <div class="chart-container">
+                            <canvas id="gigsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comms-content" class="content-panel">
+                    <div class="prose max-w-none">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">The Comms Hub: Centralized Communication</h2>
+                        <p class="text-gray-700 mb-8">The Comms Hub is where all conversations and notes are centralized, eliminating the need to search through emails or chat threads. It's designed to capture any piece of information and link it directly to the relevant client, talent, or gig.</p>
+                        
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">Information Flow</h3>
+                            <div class="flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0 md:space-x-4">
+                                <div class="text-center p-4 rounded-lg">
+                                    <div class="text-4xl mb-2">📥</div>
+                                    <h4 class="font-semibold">1. Add or Upload</h4>
+                                    <p class="text-sm text-gray-600">Manually add notes or upload files like recordings and chat exports.</p>
+                                </div>
+                                <div class="text-2xl text-gray-400">→</div>
+                                <div class="text-center p-4 rounded-lg">
+                                    <div class="text-4xl mb-2">⚙️</div>
+                                    <h4 class="font-semibold">2. System Processes</h4>
+                                    <p class="text-sm text-gray-600">The app links the data to the correct profile and triggers AI processing if applicable.</p>
+                                </div>
+                                <div class="text-2xl text-gray-400">→</div>
+                                <div class="text-center p-4 rounded-lg">
+                                    <div class="text-4xl mb-2">📝</div>
+                                    <h4 class="font-semibold">3. View & Search</h4>
+                                    <p class="text-sm text-gray-600">The information is now stored, summarized, and fully searchable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ai-content" class="content-panel">
+                    <div class="prose max-w-none">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">The LLM Brain: AI & Automations</h2>
+                        <p class="text-gray-700 mb-8">Our application uses an integrated Large Language Model (LLM) and smart automations to perform intelligent, time-saving tasks on your data. These features work in the background to make your information more organized and actionable.</p>
+
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">AI-Powered Features</h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">📄</div>
+                                <h4 class="font-semibold">Transcript Summarization</h4>
+                                <p class="text-sm text-gray-600">Generates concise summaries and key decisions from meeting recordings.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">🏷️</div>
+                                <h4 class="font-semibold">Topic Tagging</h4>
+                                <p class="text-sm text-gray-600">Automatically analyzes and tags notes with relevant topics for easy filtering.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">🎯</div>
+                                <h4 class="font-semibold">Task & Urgency Extraction</h4>
+                                <p class="text-sm text-gray-600">Identifies action items and scores their urgency based on language.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">👤</div>
+                                <h4 class="font-semibold">Talent Bio Generation</h4>
+                                <p class="text-sm text-gray-600">Drafts or suggests updates to talent bios based on internal notes.</p>
+                            </div>
+                        </div>
+
+                        <hr class="my-8">
+
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Automations</h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">📓</div>
+                                <h4 class="font-semibold">Notion Integration</h4>
+                                <p class="text-sm text-gray-600">Automatically creates a dedicated Notion page when a new client is added.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">💬</div>
+                                <h4 class="font-semibold">Slack Notifications</h4>
+                                <p class="text-sm text-gray-600">Triggers real-time alerts in Slack for critical updates like gig status changes.</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg text-center border border-gray-200">
+                                <div class="text-3xl mb-2">📊</div>
+                                <h4 class="font-semibold">Google Sheets Export</h4>
+                                <p class="text-sm text-gray-600">Exports a daily summary of key metrics for reporting and analysis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab');
+            const contentPanels = document.querySelectorAll('.content-panel');
+            const crmInteractiveBtns = document.querySelectorAll('.interactive-btn');
+            const crmDescriptions = document.querySelectorAll('#crm-descriptions > div');
+
+            const gigData = {
+                labels: ['Planning', 'In Progress', 'On Hold', 'Completed', 'Cancelled'],
+                datasets: [{
+                    label: '# of Gigs',
+                    data: [12, 19, 3, 25, 2],
+                    backgroundColor: [
+                        'rgba(141, 110, 99, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(141, 110, 99, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            let gigsChartInstance = null;
+
+            function activateTab(tabId) {
+                tabs.forEach(tab => {
+                    const isSelected = tab.dataset.tab === tabId;
+                    tab.classList.toggle('tab-active', isSelected);
+                    tab.classList.toggle('tab-inactive', !isSelected);
+                });
+
+                contentPanels.forEach(panel => {
+                    panel.classList.toggle('active', panel.id === `${tabId}-content`);
+                });
+
+                if (tabId === 'crm' && !gigsChartInstance) {
+                    const ctx = document.getElementById('gigsChart').getContext('2d');
+                    gigsChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: gigData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    activateTab(tab.dataset.tab);
+                });
+            });
+
+            crmInteractiveBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+                    
+                    crmDescriptions.forEach(desc => {
+                        if (desc.id === targetId) {
+                            desc.classList.add('highlight');
+                        } else {
+                            desc.classList.remove('highlight');
+                        }
+                    });
+                });
+            });
+
+            activateTab('overview');
+        });
+    </script>
+
+</body>
+</html>
